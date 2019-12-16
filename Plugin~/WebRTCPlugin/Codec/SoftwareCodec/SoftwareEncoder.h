@@ -20,7 +20,7 @@ namespace WebRTC
         virtual bool IsSupported() const override { return true; }
         virtual void SetIdrFrame() override {}
         virtual uint64 GetCurrentFrameCount() const override { return 0; }
-        virtual CodecInitializationResult GetCodecInitializationResult() const override;
+        inline virtual CodecInitializationResult GetCodecInitializationResult() const override;
         
 
     private:
