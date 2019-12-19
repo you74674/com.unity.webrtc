@@ -1,7 +1,6 @@
 # .yamato/upm-ci-webrtc-packages.yml
 editors:
-  - version: 2019.1
-  - version: 2019.2  
+  - version: 2019.3  
 #  - version: trunk
 
 
