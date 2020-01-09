@@ -162,17 +162,19 @@ namespace WebRTC
 
     bool Context::InitializeEncoder(IGraphicsDevice* device)
     {
-        if(!nvVideoCapturer->InitializeEncoder(device))
+        if(!nvVideoCapturer->InitializeEncoder(device, false))
         {
             return false;
         }
         nvVideoCapturer->StartEncoder();
         return true;
     }
+
     void Context::EncodeFrame()
     {
         nvVideoCapturer->EncodeVideoData();
     }
+
     void Context::FinalizeEncoder()
     {
         nvVideoCapturer->FinalizeEncoder();

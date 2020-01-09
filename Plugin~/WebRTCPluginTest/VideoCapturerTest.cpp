@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "GraphicsDeviceTestBase.h"
 #include "../WebRTCPlugin/GraphicsDevice/ITexture2D.h"
 #include "../WebRTCPlugin/Codec/EncoderFactory.h"
@@ -20,7 +20,7 @@ protected:
         GraphicsDeviceTestBase::SetUp();
         EXPECT_NE(nullptr, m_device);
 
-        EncoderFactory::GetInstance().Init(width, height, m_device);
+        EncoderFactory::GetInstance().Init(width, height, m_device, false);
         encoder_ = EncoderFactory::GetInstance().GetEncoder();
         EXPECT_NE(nullptr, encoder_);
 
@@ -32,12 +32,12 @@ protected:
     }
 };
 TEST_P(VideoCapturerTest, InitializeAndFinalize) {
-    capturer->InitializeEncoder(m_device);
+    capturer->InitializeEncoder(m_device, false);
     capturer->FinalizeEncoder();
 }
 
 TEST_P(VideoCapturerTest, EncodeVideoData) {
-    capturer->InitializeEncoder(m_device);
+    capturer->InitializeEncoder(m_device, false);
     auto tex = m_device->CreateDefaultTextureV(width, height);
     capturer->SetFrameBuffer(tex->GetEncodeTexturePtrV());
     capturer->EncodeVideoData();

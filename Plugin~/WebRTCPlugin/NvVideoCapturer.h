@@ -34,7 +34,7 @@ namespace WebRTC
         }
         void StartEncoder();
         void SetFrameBuffer(void* frameBuffer);
-        bool InitializeEncoder(IGraphicsDevice* device);
+        bool InitializeEncoder(IGraphicsDevice* device, bool preferSoftwareEncoder);
         void FinalizeEncoder();
         void SetKeyFrame();
         void SetSize(int32 width, int32 height);
