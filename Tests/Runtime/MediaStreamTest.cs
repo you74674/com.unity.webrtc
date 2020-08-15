@@ -190,7 +190,7 @@ namespace Unity.WebRTC.RuntimeTest
             yield return test;
             test.component.CoroutineUpdate();
             yield return new WaitForSeconds(0.1f);
-            var op = test.component.GetSenderStats(0);
+            var op = test.component.GetSenderStats(0, 0);
             yield return op;
             Assert.True(op.IsDone);
             Assert.IsNotEmpty(op.Value.Stats);
@@ -229,7 +229,7 @@ namespace Unity.WebRTC.RuntimeTest
             yield return test;
             test.component.CoroutineUpdate();
             yield return new WaitForSeconds(0.1f);
-            var op = test.component.GetReceiverStats(0);
+            var op = test.component.GetReceiverStats(1, 0);
             yield return op;
             Assert.True(op.IsDone);
             Assert.IsNotEmpty(op.Value.Stats);
@@ -286,7 +286,7 @@ namespace Unity.WebRTC.RuntimeTest
             test.component.CoroutineUpdate();
             yield return new WaitForSeconds(0.1f);
 
-            var senders = test.component.GetPeer1Senders();
+            var senders = test.component.GetPeerSenders(0);
             Assert.IsNotEmpty(senders);
 
             foreach(var sender in senders)
@@ -300,6 +300,54 @@ namespace Unity.WebRTC.RuntimeTest
                 var parameters2 = sender.GetParameters();
                 Assert.AreEqual(framerate, parameters2.Encodings[0].maxFramerate);
             }
+
+            test.component.Dispose();
+            videoStream.Dispose();
+            Object.DestroyImmediate(camObj);
+        }
+
+        [UnityTest]
+        [Timeout(5000)]
+        public IEnumerator OnAddTrackDelegatesWithEvent()
+        {
+            var camObj = new GameObject("Camera");
+            var cam = camObj.AddComponent<Camera>();
+            var videoStream = cam.CaptureStream(1280, 720, 1000000);
+            yield return new WaitForSeconds(0.1f);
+
+            var test = new MonoBehaviourTest<SignalingPeers>();
+            test.component.SetStream(videoStream);
+            yield return test;
+            test.component.CoroutineUpdate();
+            yield return new WaitForSeconds(0.1f);
+
+            bool isCalledOnAddTrack = false;
+            bool isCalledOnRemoveTrack = false;
+
+            videoStream.OnAddTrack = e =>
+            {
+                Assert.NotNull(e.Track);
+                isCalledOnAddTrack = true;
+            };
+            videoStream.OnRemoveTrack = e =>
+            {
+                Assert.NotNull(e.Track);
+                isCalledOnRemoveTrack = true;
+            };
+
+            var width = 256;
+            var height = 256;
+            var format = WebRTC.GetSupportedRenderTextureFormat(SystemInfo.graphicsDeviceType);
+            var rt = new UnityEngine.RenderTexture(width, height, 0, format);
+            rt.Create();
+            var track2 = new VideoStreamTrack("video2", rt);
+
+            videoStream.AddTrack(track2);
+            var op1 = new WaitUntilWithTimeout(() => isCalledOnAddTrack, 5000);
+            yield return op1;
+            videoStream.RemoveTrack(track2);
+            var op2 = new WaitUntilWithTimeout(() => isCalledOnRemoveTrack, 5000);
+            yield return op2;
 
             test.component.Dispose();
             videoStream.Dispose();
