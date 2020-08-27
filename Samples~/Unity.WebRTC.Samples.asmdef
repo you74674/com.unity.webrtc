@@ -3,13 +3,17 @@
     "references": [
         "Unity.WebRTC"
     ],
-    "optionalUnityReferences": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "LinuxStandalone64",
+        "macOSStandalone",
+        "WindowsStandalone64"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
