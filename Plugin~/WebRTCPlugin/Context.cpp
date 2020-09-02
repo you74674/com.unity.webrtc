@@ -396,5 +396,12 @@ namespace webrtc
     {
         return m_mapSetSessionDescriptionObserver[connection];
     }
+
+    UnityVideoRenderer* Context::CreateVideoRenderer()
+    {
+        auto renderer = std::make_unique<UnityVideoRenderer>();
+        return renderer.get();
+    }
+
 } // end namespace webrtc
 } // end namespace unity
