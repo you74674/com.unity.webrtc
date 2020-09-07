@@ -2,10 +2,15 @@
 
 #include <IUnityGraphics.h>
 #include <IUnityProfiler.h>
+#include <IUnityGraphicsVulkan.h>
 
 #include "Codec/EncoderFactory.h"
 #include "Context.h"
 #include "GraphicsDevice/GraphicsDevice.h"
+
+#if defined(SUPPORT_VULKAN)
+#include "UnityVulkanInitCallback.h"
+#endif
 
 enum class VideoStreamRenderEventID
 {
@@ -64,6 +69,14 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnit
     s_UnityInterfaces = unityInterfaces;
     s_Graphics = unityInterfaces->Get<IUnityGraphics>();
     s_Graphics->RegisterDeviceEventCallback(OnGraphicsDeviceEvent);
+
+#if defined(SUPPORT_VULKAN)
+    if(s_Graphics->GetRenderer() == kUnityGfxRendererVulkan)
+    {
+        IUnityGraphicsVulkan* vulkan = unityInterfaces->Get<IUnityGraphicsVulkan>();
+        vulkan->InterceptInitialization(InterceptVulkanInitialization, nullptr);
+    }
+#endif
 
     s_UnityProfiler = unityInterfaces->Get<IUnityProfiler>();
     if (s_UnityProfiler != nullptr)
