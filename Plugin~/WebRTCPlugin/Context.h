@@ -84,6 +84,7 @@ namespace webrtc
 
         // Renderer
         UnityVideoRenderer* CreateVideoRenderer();
+        void DeleteVideoRenderer(UnityVideoRenderer* renderer);
 
         // You must call these methods on Rendering thread.
         bool InitializeEncoder(IEncoder* encoder, webrtc::MediaStreamTrackInterface* track);
