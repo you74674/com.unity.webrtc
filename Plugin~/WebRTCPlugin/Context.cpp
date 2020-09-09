@@ -274,9 +274,15 @@ namespace webrtc
         return m_encoderType;
     }
 
-    CodecInitializationResult Context::GetInitializationResult(webrtc::MediaStreamTrackInterface* track)
+    CodecInitializationResult Context::GetInitializationResult(webrtc::MediaStreamTrackInterface *track)
     {
-        return m_mapVideoCapturer[track]->GetCodecInitializationResult();
+        auto it = m_mapVideoCapturer.find(track);
+        if (it != m_mapVideoCapturer.end())
+        {
+            return it->second->GetCodecInitializationResult();
+        }
+
+        return CodecInitializationResult::NotInitialized;
     }
 
     webrtc::MediaStreamInterface* Context::CreateMediaStream(const std::string& streamId)
