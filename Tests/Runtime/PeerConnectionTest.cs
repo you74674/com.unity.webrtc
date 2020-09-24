@@ -394,7 +394,6 @@ namespace Unity.WebRTC.RuntimeTest
                 foreach (var pair in stats.Dict)
                 {
                     Assert.IsNotEmpty(pair.Key);
-                    Assert.NotNull(pair.Value);
                 }
                 StatsCheck.Test(stats);
             }
