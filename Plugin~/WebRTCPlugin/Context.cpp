@@ -204,6 +204,7 @@ namespace webrtc
             m_mapSetSessionDescriptionObserver.clear();
             m_mapVideoEncoderParameter.clear();
             m_mapDataChannels.clear();
+            m_mapVideoRenderer.clear();
 
             m_workerThread->Quit();
             m_workerThread.reset();
@@ -406,7 +407,9 @@ namespace webrtc
     UnityVideoRenderer* Context::CreateVideoRenderer()
     {
         auto renderer = std::make_unique<UnityVideoRenderer>();
-        return renderer.get();
+        UnityVideoRenderer* ptr = renderer.get();
+        m_mapVideoRenderer[ptr] = std::move(renderer);
+        return ptr;
     }
 
 } // end namespace webrtc
