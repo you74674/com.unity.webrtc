@@ -13,6 +13,8 @@
 #include "UnityVideoDecoderFactory.h"
 #include "UnityVideoTrackSource.h"
 
+using namespace ::webrtc;
+
 namespace unity
 {
 namespace webrtc
@@ -214,13 +216,19 @@ namespace webrtc
         }
     }
 
+    UnityVideoTrackSource* GetVideoSource(MediaStreamTrackInterface* track)
+    {
+        VideoTrackInterface* videoTrack = static_cast<VideoTrackInterface*>(track);
+        UnityVideoTrackSource* source = static_cast<UnityVideoTrackSource*>(videoTrack->GetSource());
+        return source;
+    }
+
     bool Context::InitializeEncoder(IEncoder* encoder, webrtc::MediaStreamTrackInterface* track)
     {
         if (encoder->GetCodecInitializationResult() != CodecInitializationResult::Success)
         {
             return false;
         }
-
         m_mapVideoCapturer[track]->SetEncoder(encoder);
 
         uint32_t id = GenerateUniqueId();
@@ -237,11 +245,8 @@ namespace webrtc
 
     bool Context::EncodeFrame(webrtc::MediaStreamTrackInterface* track)
     {
-        auto it = m_mapVideoCapturer.find(track);
-        if(it != m_mapVideoCapturer.end() && it->second != nullptr)
-        {
-            it->second->OnFrameCaptured();
-        }
+        UnityVideoTrackSource* source = GetVideoSource(track);
+        source->OnFrameCaptured();
         return true;
     }
 

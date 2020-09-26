@@ -44,7 +44,6 @@ TEST_P(GraphicsDeviceTest, CopyResourceV) {
     const std::unique_ptr<ITexture2D> src(m_device->CreateDefaultTextureV(width, height));
     const std::unique_ptr<ITexture2D> dst(m_device->CreateDefaultTextureV(width, height));
     EXPECT_TRUE(m_device->CopyResourceV(dst.get(), src.get()));
-//    EXPECT_FALSE(m_device->CopyResourceV(dst.get(), dst.get()));
 }
 
 TEST_P(GraphicsDeviceTest, CopyResourceNativeV) {
