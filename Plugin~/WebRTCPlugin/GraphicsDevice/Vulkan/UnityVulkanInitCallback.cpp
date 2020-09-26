@@ -2,7 +2,7 @@
 #include <IUnityGraphicsVulkan.h>
 #include <vulkan/vulkan_win32.h>
 
-#include "GraphicsDevice/GraphicsUtility.h"
+#include "UnityVulkanInitCallback.h"
 
 namespace unity
 {

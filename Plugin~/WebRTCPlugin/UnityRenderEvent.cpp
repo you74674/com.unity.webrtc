@@ -9,7 +9,7 @@
 #include "GraphicsDevice/GraphicsDevice.h"
 
 #if defined(SUPPORT_VULKAN)
-#include "UnityVulkanInitCallback.h"
+#include "GraphicsDevice/Vulkan/UnityVulkanInitCallback.h"
 #endif
 
 enum class VideoStreamRenderEventID
@@ -32,6 +32,7 @@ namespace webrtc
 
     const UnityProfilerMarkerDesc* s_MarkerEncode = nullptr;
     bool s_IsDevelopmentBuild = false;
+
 } // end namespace webrtc
 } // end namespace unity
 

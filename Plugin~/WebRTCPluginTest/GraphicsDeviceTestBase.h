@@ -1,17 +1,16 @@
 #pragma once
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../WebRTCPlugin/GraphicsDevice/IGraphicsDevice.h"
 
 namespace unity
 {
 namespace webrtc
 {
 
-using unity::webrtc::UnityEncoderType;
 using std::tuple;
 using testing::Values;
 
+class IGraphicsDevice;
 class GraphicsDeviceTestBase
     : public testing::TestWithParam<tuple<UnityGfxRenderer, UnityEncoderType> >
 {

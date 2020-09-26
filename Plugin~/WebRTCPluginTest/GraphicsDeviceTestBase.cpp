@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "GraphicsDeviceTestBase.h"
-#include "../WebRTCPlugin/PlatformBase.h"
-#include "../WebRTCPlugin/GraphicsDevice/GraphicsDevice.h"
+#include "PlatformBase.h"
+#include "GraphicsDevice/GraphicsDevice.h"
 
 #if defined(SUPPORT_D3D11) // D3D11
 
 #include <d3d11.h>
 #include <wrl/client.h>
-#include "../WebRTCPlugin/GraphicsDevice/D3D12/D3D12GraphicsDevice.h"
+#include "GraphicsDevice/D3D12/D3D12GraphicsDevice.h"
 
 #endif
 
