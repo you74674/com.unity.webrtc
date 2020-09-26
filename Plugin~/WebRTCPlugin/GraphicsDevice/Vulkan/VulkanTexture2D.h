@@ -15,8 +15,9 @@ public:
     VulkanTexture2D(const uint32_t w, const uint32_t h);
     virtual ~VulkanTexture2D();
 
-    bool Init(const VkPhysicalDevice physicalDevice, const VkDevice device); 
-    void Shutdown(); 
+    bool Init(const VkPhysicalDevice physicalDevice, const VkDevice device);
+    bool InitCpuRead(const VkPhysicalDevice physicalDevice, const VkDevice device);
+    void Shutdown();
 
     inline virtual void* GetNativeTexturePtrV() override;
     inline virtual const void* GetNativeTexturePtrV() const override;

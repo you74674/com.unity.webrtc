@@ -19,7 +19,8 @@ namespace webrtc
 {
 
 //
-bool VulkanUtility::FindMemoryTypeInto(const VkPhysicalDevice physicalDevice, uint32_t typeFilter,
+bool VulkanUtility::FindMemoryTypeInto(
+    const VkPhysicalDevice physicalDevice, uint32_t typeFilter,
         VkMemoryPropertyFlags properties, uint32_t* memoryTypeIndex)
 {
     VkPhysicalDeviceMemoryProperties memProperties;
@@ -27,7 +28,8 @@ bool VulkanUtility::FindMemoryTypeInto(const VkPhysicalDevice physicalDevice, ui
 
     for (uint32_t i = 0; i < memProperties.memoryTypeCount; ++i) {
         //properties define special features of the memory, like being able to map so we can write to it from the CPU. 
-        if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+        if ((typeFilter & (1 << i)) &&
+            (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
             *memoryTypeIndex = i;
             return true;
         }
@@ -74,7 +76,8 @@ VkDeviceSize VulkanUtility::CreateImage(const VkPhysicalDevice physicalDevice, c
     allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     allocInfo.allocationSize = memRequirements.size;
     if (!VulkanUtility::FindMemoryTypeInto(
-        physicalDevice, memRequirements.memoryTypeBits, properties, &allocInfo.memoryTypeIndex)
+        physicalDevice, memRequirements.memoryTypeBits,
+        properties, &allocInfo.memoryTypeIndex)
        )
     {
         return 0;

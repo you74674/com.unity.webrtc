@@ -46,16 +46,35 @@ bool VulkanTexture2D::Init(const VkPhysicalDevice physicalDevice, const VkDevice
     m_textureImageMemorySize = VulkanUtility::CreateImage(physicalDevice,device,m_allocator, m_width, m_height,
         VK_IMAGE_TILING_OPTIMAL,
         VK_IMAGE_USAGE_TRANSFER_SRC_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
-        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,m_textureFormat, &m_textureImage,&m_textureImageMemory,
+        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+        m_textureFormat, &m_textureImage,&m_textureImageMemory,
         EXPORT_HANDLE
     );
 
     if (m_textureImageMemorySize <= 0) {
         return false;
     }
-
     return (CUDA_SUCCESS == m_cudaImage.Init(m_device, this));
+}
 
+//---------------------------------------------------------------------------------------------------------------------
+bool VulkanTexture2D::InitCpuRead(const VkPhysicalDevice physicalDevice, const VkDevice device) {
+    m_device = device;
+
+    const bool EXPORT_HANDLE = true;
+    m_textureImageMemorySize = VulkanUtility::CreateImage(
+        physicalDevice, device, m_allocator, m_width, m_height,
+        VK_IMAGE_TILING_LINEAR,
+        VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+        VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+        m_textureFormat, &m_textureImage, &m_textureImageMemory,
+        EXPORT_HANDLE
+    );
+
+    if (m_textureImageMemorySize <= 0) {
+        return false;
+    }
+    return true;
 }
 
 } // end namespace webrtc

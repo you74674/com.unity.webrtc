@@ -29,7 +29,6 @@ TEST_P(GraphicsDeviceTest, CreateCPUReadTextureV) {
     const auto height = 256;
     const std::unique_ptr<ITexture2D> tex(m_device->CreateCPUReadTextureV(width, height));
     EXPECT_TRUE(tex->IsSize(width, height));
-    EXPECT_NE(nullptr, tex->GetEncodeTexturePtrV());
     EXPECT_NE(nullptr, tex->GetNativeTexturePtrV());
     EXPECT_FALSE(tex->IsSize(0, 0));
 }
