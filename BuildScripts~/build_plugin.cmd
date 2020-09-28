@@ -18,16 +18,19 @@ cd googletest
 git checkout 2fe3bd994b3189899d93f1d5a881e725e046fdc2
 cmake . -G "Visual Studio 15 2017" -A x64 -B "build64"
 cmake --build build64 --config Release
+cmake --build build64 --config Debug
 mkdir include\gtest
 xcopy /e googletest\include\gtest include\gtest
 mkdir include\gmock
 xcopy /e googlemock\include\gmock include\gmock
 mkdir lib
 xcopy /e build64\googlemock\Release lib
+xcopy /e build64\googlemock\Debug lib
 xcopy /e build64\googlemock\gtest\Release lib
+xcopy /e build64\googlemock\gtest\Debug lib
 
 echo -------------------
-echo Build com.unity.webrtc Plugin 
+echo Build com.unity.webrtc Plugin
 
 cd %SOLUTION_DIR%
 cmake . -G "Visual Studio 15 2017" -A x64 -B "build64"
